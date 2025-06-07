@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ url('#') }}" aria-expanded="false">
+                <a class="sidebar-link" href="{{ url('surat_keluar') }}" aria-expanded="false">
                 <span>
                     <i class="ti ti-location"></i>
                 </span>

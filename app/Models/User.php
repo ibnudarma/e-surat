@@ -44,8 +44,14 @@ class User extends Authenticatable
         ];
     }
 
+    public function bagian() : BelongsTo
+    {
+        return $this->belongsTo(Bagian::class, 'bagian_id', 'id');
+    }
+
     public function profile(): HasOne
     {
         return $this->hasOne(Profile::class, 'user_id', 'id');
     }
+    
 }

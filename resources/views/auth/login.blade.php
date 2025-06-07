@@ -8,7 +8,7 @@
     <script>
         Swal.fire({
             icon: 'success',
-            title: 'Berhasil Keluar',
+            title: 'berhasil keluar',
             text: '{{ session('success') }}',
             showConfirmButton: false,
             timer: 2000
@@ -58,7 +58,7 @@
                   </div>
                 <button class="btn btn-primary w-100 fs-4 mb-4 rounded-2" id="loginButton">
                     <span class="button-text">Masuk</span>
-                    <span class="button-text-masuk d-none">Sedang masuk </span>
+                    <span class="button-text-masuk d-none">sedang masuk </span>
                     <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                 </button>
                 </form>

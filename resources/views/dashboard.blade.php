@@ -6,12 +6,13 @@
     <script>
         Swal.fire({
             icon: 'success',
-            title: 'Berhasil Masuk',
+            title: 'berhasil masuk',
             text: '{{ session('success') }}',
             showConfirmButton: false,
             timer: 2000
         });
     </script>
+    {{ session()->forget('success') }}
 @endif
 
 <div class="card">
