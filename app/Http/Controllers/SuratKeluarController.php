@@ -8,6 +8,7 @@ use App\Models\Surat;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Storage;
 use Str;
 
 class SuratKeluarController extends Controller
@@ -80,6 +81,7 @@ class SuratKeluarController extends Controller
         $statusSurat = new StatusSurat();
         $statusSurat->bagian_id = $bagian_id;
         $statusSurat->status = 'menunggu diterima oleh ' . $penerima;
+        $statusSurat->color = 'warning';
 
         DB::transaction(function () use ($surat, $statusSurat) {
         $surat->save();
@@ -88,6 +90,79 @@ class SuratKeluarController extends Controller
         });
 
         return redirect('surat_keluar')->with('success', 'Surat berhasil dikirim');
+    }
+
+    public function edit($id)
+    {
+        $surat = Surat::where('id', $id)
+        ->where('bagian_id', auth()->user()->bagian->id)
+        ->firstOrFail();
+
+        if($surat->tgl_diterima !== null){
+            return back();
+        }
+
+        $data = [
+            'title' => 'Edit Surat Keluar',
+            'bagian' => Bagian::select('id', 'nama_bagian')->where('id','!=', Auth::user()->bagian->id)->get(),
+            'surat' => $surat
+        ];
+
+        return view('pages.surat_keluar.edit', $data); 
+    }
+    
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'tipe'       => 'required|in:umum,permohonan',
+            'ditujukan'  => 'required|exists:bagian,id',
+            'sifat'      => 'required|in:biasa,penting,segera,amat segera',
+            'lampiran'   => 'required|string',
+            'perihal'    => 'required|string',
+            'tgl_surat'  => 'required|date',
+            'file'       => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+        ]);
+
+        $surat = Surat::where('id', $id)
+        ->where('bagian_id', auth()->user()->bagian->id)
+        ->firstOrFail();
+
+        $surat->tipe      = $request->tipe;
+        $surat->ditujukan = $request->ditujukan;
+        $surat->sifat     = $request->sifat;
+        $surat->lampiran  = $request->lampiran;
+        $surat->perihal   = $request->perihal;
+        $surat->tgl_surat = $request->tgl_surat;
+
+        // Jika ada file baru diunggah
+        if ($request->hasFile('file')) {
+            // Hapus file lama jika ada
+            if ($surat->file && Storage::exists('public/' . $surat->file)) {
+                Storage::delete('public/' . $surat->file);
+            }
+
+            // Simpan file baru
+            $file = $request->file('file')->store('surat_keluar', 'public');
+            $surat->file = $file;
+        }
+
+        $surat->save();
+
+        return redirect('surat_keluar')->with('success', 'Surat keluar berhasil diperbarui.');
+    }
+
+    public function show($id)
+    {
+        $surat = Surat::where('id', $id)
+            ->where('bagian_id', auth()->user()->bagian->id)
+            ->firstOrFail();
+        $data = [
+            'title' => 'Detail Surat Keluar',
+            'status_surat' => StatusSurat::where('surat_id', '=', $id)->get(),
+            'surat' => $surat
+        ];
+
+        return view('pages.surat_keluar.show', $data);
     }
     
 }

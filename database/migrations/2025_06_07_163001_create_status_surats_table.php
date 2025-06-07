@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('status_surat', function (Blueprint $table) {
@@ -16,13 +14,11 @@ return new class extends Migration
             $table->foreignId('surat_id');
             $table->foreignId('bagian_id');
             $table->string('status');
+            $table->string('color');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('status_surat');

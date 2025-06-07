@@ -21,10 +21,14 @@ Route::middleware('auth')->group(function() {
 
     // Surat Keluar
     Route::get('surat_keluar', [SuratKeluarController::class, 'index']);
-    Route::get('surat_keluar/create', [SuratKeluarController::class, 'create']);
+    Route::get('surat_keluar/{id}', [SuratKeluarController::class, 'show']);
+    Route::get('surat_keluar_create', [SuratKeluarController::class, 'create']);
     Route::post('surat_keluar', [SuratKeluarController::class, 'store']);
+    Route::get('surat_keluar/{id}/edit', [SuratKeluarController::class, 'edit']);
+    Route::put('surat_keluar/{id}', [SuratKeluarController::class, 'update']);
 
     // Surat Masuk
     Route::get('surat_masuk', [SuratMasukController::class, 'index']);
+    Route::get('surat_masuk/diterima/{id}', [SuratMasukController::class, 'diterima']);
 });
 

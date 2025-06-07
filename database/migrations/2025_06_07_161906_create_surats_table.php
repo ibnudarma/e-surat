@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('surat', function (Blueprint $table) {
@@ -21,6 +19,7 @@ return new class extends Migration
             $table->string('lampiran')->nullable();
             $table->string('perihal')->nullable();
             $table->date('tgl_surat')->nullable();
+            $table->dateTime('tgl_diterima')->nullable()->default(null);
             $table->string('file')->nullable();
             $table->timestamps();
         });

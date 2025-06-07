@@ -9,6 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Surat extends Model
 {
     protected $table = 'surat';
+    protected $guarded = ['id'];
+
+    public function pengirim(): BelongsTo
+    {
+        return $this->belongsTo(Bagian::class, 'bagian_id', 'id');
+    }
 
     public function penerima(): BelongsTo
     {

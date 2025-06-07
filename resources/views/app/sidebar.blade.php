@@ -31,7 +31,12 @@
                 <span>
                     <i class="ti ti-message"></i>
                 </span>
-                <span class="hide-menu">Surat Masuk</span>
+                <span class="hide-menu d-inline-flex align-items-center">
+                    Surat Masuk
+                    @if(isset($smbd) && $smbd > 0)
+                        <span class="badge bg-warning text-white ms-2">{{ $smbd }}</span>
+                    @endif
+                </span>
                 </a>
             </li>
             <li class="sidebar-item">
