@@ -54,7 +54,9 @@
 
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('surat_masuk/' . $value->id) }}">detail</a></li>
+                                @if ($value->dibalas !== null)
                                 <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">balas surat</a></li>
+                                @endif
                                 <li><a class="dropdown-item" href="{{ url('storage/' . $value->file) }}" target="_blank">lihat surat</a></li>
                             </ul>
                         </div>

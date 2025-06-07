@@ -8,25 +8,33 @@
             @csrf
 
             {{-- Tipe Surat --}}
-            <div class="mb-3">
-                <label for="tipe" class="form-label">Tipe <span class="text-danger">*</span></label>
-                <select class="form-select @error('tipe') is-invalid @enderror" name="tipe">
-                    <option value="" disabled {{ old('tipe') ? '' : 'selected' }}>-- pilih tipe surat --</option>
-                    <option value="umum" {{ old('tipe') == 'umum' ? 'selected' : '' }}>Umum</option>
-                    <option value="permohonan" {{ old('tipe') == 'permohonan' ? 'selected' : '' }}>Permohonan</option>
-                </select>
-                @error('tipe')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+            @if (auth()->user()->bagian->nama_organisasi == 'BUMD')
+                <div class="mb-3">
+                    <label for="tipe" class="form-label">Tipe <span class="text-danger">*</span></label>
+                    <select class="form-select @error('tipe') is-invalid @enderror" name="tipe" id="tipe">
+                        <option value="" disabled {{ old('tipe') ? '' : 'selected' }}>-- pilih tipe surat --</option>
+                        <option value="umum" {{ old('tipe') == 'umum' ? 'selected' : '' }}>Umum</option>
+                        <option value="permohonan" {{ old('tipe') == 'permohonan' ? 'selected' : '' }}>Permohonan</option>
+                    </select>
+                    @error('tipe')
+                        <div class="invalid-feedback">{{ $error }}</div>
+                    @enderror
+                </div>
+            @else
+                <input type="hidden" name="tipe" id="tipe" value="umum">
+            @endif
+
 
             {{-- Ditujukan --}}
             <div class="mb-3">
                 <label for="ditujukan" class="form-label">Ditujukan <span class="text-danger">*</span></label>
-                <select class="form-select @error('ditujukan') is-invalid @enderror" name="ditujukan">
+                <select class="form-select @error('ditujukan') is-invalid @enderror" name="ditujukan" id="ditujukan">
                     <option value="" disabled {{ old('ditujukan') ? '' : 'selected' }}>-- pilih penerima surat --</option>
                     @foreach ($bagian as $value)
-                        <option value="{{ $value->id }}" {{ old('ditujukan') == $value->id ? 'selected' : '' }}>
+                        <option 
+                            value="{{ $value->id }}" 
+                            data-id="{{ $value->id }}" 
+                            {{ old('ditujukan') == $value->id ? 'selected' : '' }}>
                             {{ $value->nama_bagian }}
                         </option>
                     @endforeach
@@ -91,5 +99,41 @@
         </form>
     </div>
 </div>
+
+<script>
+$(document).ready(function () {
+    function filterDitujukan() {
+        const tipeSelect = $('#tipe');
+        if (!tipeSelect.length) return; // keluar jika tidak ada #tipe
+        
+        const tipe = tipeSelect.val();
+        $('#ditujukan option').each(function () {
+            const id = parseInt($(this).data('id'));
+            if (!id) return;
+
+            if (tipe === 'permohonan') {
+                if (id >= 1 && id <= 3) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            } else {
+                $(this).show();
+            }
+        });
+
+        const selectedOption = $('#ditujukan option:selected');
+        if (selectedOption.is(':hidden')) {
+            $('#ditujukan').val('');
+        }
+    }
+
+    filterDitujukan();
+
+    $('#tipe').on('change', function () {
+        filterDitujukan();
+    });
+});
+</script>
 
 @endsection

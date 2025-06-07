@@ -29,7 +29,7 @@
 
                 <div class="mb-3">
                     <strong class="text-muted">Ditujukan:</strong><br>
-                    <span class="fw-semibold">{{ $surat->ditujukanRelation->nama_bagian ?? '-' }}</span>
+                    <span class="fw-semibold">{{ $surat->penerima->nama_bagian ?? '-' }}</span>
                 </div>
 
                 <div class="mb-3">
