@@ -18,7 +18,7 @@
                 @if ($surat->noref !== null)   
                 <div class="mb-3">
                     <strong class="text-muted">Membalas Surat :</strong><br>
-                    <span class="fw-semibold"><a href="{{ url('surat_masuk/'.$surat->noref) }}">lihat surat</a></span>
+                    <span class="fw-semibold"><a href="{{ url('surat_masuk/'.$surat->noref) }}">{{$surat->dibalas->perihal}}</a></span>
                 </div>
                 @endif
 

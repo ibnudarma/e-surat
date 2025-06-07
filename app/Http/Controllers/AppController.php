@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Surat;
 use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,7 +53,9 @@ class AppController extends Controller
     public function dashboard()
     {
         $data = [
-            'title' => 'Dashboard'
+            'title' => 'Dashboard',
+            'jumlahSuratMasuk' => Surat::where('ditujukan', auth()->user()->bagian->id)->count(),
+            'jumlahSuratKeluar' => Surat::where('bagian_id', auth()->user()->bagian->id)->count()
         ];
         return view('dashboard', $data);
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Surat extends Model
 {
@@ -14,6 +15,11 @@ class Surat extends Model
     public function balasan(): BelongsTo
     {
         return $this->belongsTo(Surat::class, 'noref', 'id');
+    }
+
+    public function dibalas(): HasOne
+    {
+        return $this->hasOne(Surat::class, 'id', 'noref');
     }
 
     public function pengirim(): BelongsTo
