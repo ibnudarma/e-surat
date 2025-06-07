@@ -48,7 +48,7 @@
 
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('surat_keluar/' . $value->id) }}">detail</a></li>
-                                @if ($value->tgl_diterima === null)
+                                @if ($value->tgl_diterima === null  && $value->noref === null)
                                 <li><a class="dropdown-item" href="{{ url('surat_keluar/' . $value->id . '/edit') }}">edit</a></li>
                                 @endif
                                 <li><a class="dropdown-item" href="{{ url('storage/' . $value->file) }}" target="_blank">lihat surat</a></li>

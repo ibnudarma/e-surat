@@ -11,6 +11,11 @@ class Surat extends Model
     protected $table = 'surat';
     protected $guarded = ['id'];
 
+    public function balasan(): BelongsTo
+    {
+        return $this->belongsTo(Surat::class, 'noref', 'id');
+    }
+
     public function pengirim(): BelongsTo
     {
         return $this->belongsTo(Bagian::class, 'bagian_id', 'id');

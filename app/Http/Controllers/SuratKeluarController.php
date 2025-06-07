@@ -17,7 +17,7 @@ class SuratKeluarController extends Controller
     {
         $data = [
             'title' => 'Surat Keluar',
-            'surat_keluar' => Surat::where('bagian_id', '=', Auth::user()->bagian->id)->with('penerima','statusTerakhir')->get()
+            'surat_keluar' => Surat::where('bagian_id', '=', Auth::user()->bagian->id)->with('penerima','statusTerakhir')->orderBy('created_at','desc')->get()
         ];
 
         return view('pages.surat_keluar.index', $data);
@@ -85,7 +85,7 @@ class SuratKeluarController extends Controller
 
         DB::transaction(function () use ($surat, $statusSurat) {
         $surat->save();
-        $statusSurat->surat_id = $surat->id; // diatur setelah save
+        $statusSurat->surat_id = $surat->id;
         $statusSurat->save();
         });
 

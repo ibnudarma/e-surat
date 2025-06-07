@@ -22,7 +22,7 @@
                 <th>No</th>
                 <th>Tanggal Surat</th>
                 <th>Perihal</th>
-                <th>Ditujukan</th>
+                <th>Pengirim</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </thead>
@@ -35,7 +35,7 @@
                     <td>{{ $no++ }}</td>
                     <td>{{ $value->tgl_surat }}</td>
                     <td>{{ $value->perihal }}</td>
-                    <td>{{ $value->penerima->nama_bagian }}</td>
+                    <td>{{ $value->pengirim->nama_bagian }}</td>
                     <td>
                         @if ($value->tgl_diterima === null)
                           <span class="badge rounded-pill text-bg-warning">belum diterima</span>  
@@ -53,7 +53,8 @@
                             </a>
 
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('surat_keluar/' . $value->id) }}">detail</a></li>
+                                <li><a class="dropdown-item" href="{{ url('surat_masuk/' . $value->id) }}">detail</a></li>
+                                <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">balas surat</a></li>
                                 <li><a class="dropdown-item" href="{{ url('storage/' . $value->file) }}" target="_blank">lihat surat</a></li>
                             </ul>
                         </div>

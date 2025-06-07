@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function() {
 
     // Surat Masuk
     Route::get('surat_masuk', [SuratMasukController::class, 'index']);
+    Route::get('surat_masuk/{id}', [SuratMasukController::class, 'show']);
+    Route::get('surat_masuk/balas/{id}', [SuratMasukController::class, 'reply']);
+    Route::post('surat_masuk/balas', [SuratMasukController::class, 'replyStore']);
     Route::get('surat_masuk/diterima/{id}', [SuratMasukController::class, 'diterima']);
 });
 

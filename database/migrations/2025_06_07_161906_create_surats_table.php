@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('bagian_id');
             $table->foreignId('ditujukan');
-            $table->foreignId('noref')->nullable();
+            $table->foreignId('noref')->nullable()->default(null);
             $table->enum('tipe', ['umum', 'permohonan'])->default('umum');
             $table->string('sifat')->nullable();
             $table->string('lampiran')->nullable();
