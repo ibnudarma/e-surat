@@ -47,6 +47,31 @@
                 <span class="hide-menu">Surat Keluar</span>
                 </a>
             </li>
+            @if (auth()->user()->bagian->id === 1)
+            <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Menu Kabag</span>
+            </li>                
+            @elseif (auth()->user()->bagian->id === 2)
+            <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Menu Sekda</span>
+            </li>    
+            @elseif (auth()->user()->bagian->id === 3)
+            <li class="nav-small-cap">
+                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                <span class="hide-menu">Menu Asda</span>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ url('asda/disposisi_sekda') }}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-mail"></i>
+                    </span>
+                    <span class="hide-menu">Disposisi Sekda</span>
+                </a>
+            </li>
+            @endif
+
             <li class="nav-small-cap">
                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                 <span class="hide-menu">Lainnya</span>

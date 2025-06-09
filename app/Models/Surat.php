@@ -17,9 +17,9 @@ class Surat extends Model
         return $this->belongsTo(Surat::class, 'noref', 'id');
     }
 
-    public function dibalas(): HasOne
+    public function dibalas(): BelongsTo
     {
-        return $this->hasOne(Surat::class, 'id', 'noref');
+        return $this->BelongsTo(Surat::class, 'id', 'noref');
     }
 
     public function pengirim(): BelongsTo
@@ -40,6 +40,21 @@ class Surat extends Model
     public function statusTerakhir()
     {
         return $this->hasOne(StatusSurat::class, 'surat_id', 'id')->latestOfMany();
+    }
+
+    public function disposisiSekda(): HasOne
+    {
+       return $this->hasOne(LembarDisposisiSekda::class, 'surat_id', 'id');
+    }
+
+    public function disposisiAsda(): HasOne
+    {
+       return $this->hasOne(LembarDisposisiAsda::class, 'surat_id', 'id');
+    }
+
+    public function kartuDisposisi(): HasOne
+    {
+       return $this->hasOne(KartuDisposisi::class, 'surat_id', 'id');
     }
 
 }

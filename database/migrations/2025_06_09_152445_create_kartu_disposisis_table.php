@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('keputusan', ['intruksi', 'informasi']);
             $table->text('catatan')->nullable();
             $table->string('diteruskan');
-            $table->string('file_nota_dinas');
+            $table->string('file_nota_dinas')->nullable()->default(null);
             $table->dateTime('tgl_diterima_asda')->nullable();
             $table->timestamps();
         });

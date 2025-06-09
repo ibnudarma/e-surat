@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\AsdaController;
+use App\Http\Controllers\KabagController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SekdaController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
@@ -33,5 +36,16 @@ Route::middleware('auth')->group(function() {
     Route::get('surat_masuk/balas/{id}', [SuratMasukController::class, 'reply']);
     Route::post('surat_masuk/balas', [SuratMasukController::class, 'replyStore']);
     Route::get('surat_masuk/diterima/{id}', [SuratMasukController::class, 'diterima']);
-});
 
+    // Kabag
+    Route::get('kabag/kartu_disposisi/{id}', [KabagController::class, 'kartuDisposisiCreate']);
+    Route::post('kabag/kartu_disposisi', [KabagController::class, 'kartuDisposisiStore']);
+    Route::post('kabag/kartu_disposisi_view/{id}', [KabagController::class, 'kartuDisposisiStore']);
+
+    // Disposisi Sekda
+    Route::get('disposisi/sekda/{id}', [SekdaController::class, 'disposisiCreate']);
+    Route::post('disposisi/sekda', [SekdaController::class, 'disposisiStore']);
+
+    // Asda
+    Route::get('asda/disposisi_sekda', [AsdaController::class, 'disposisiSekda']);
+});
