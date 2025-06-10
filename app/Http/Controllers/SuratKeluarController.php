@@ -38,6 +38,7 @@ class SuratKeluarController extends Controller
         $validated = $request->validate([
             'tipe' => ['nullable', 'in:umum,permohonan'],
             'ditujukan' => ['required', 'exists:bagian,id'],
+            'nomor' => ['required', 'string', 'max:255'],
             'sifat' => ['required', 'in:biasa,penting,segera,amat segera'],
             'lampiran' => ['nullable', 'string', 'max:255'],
             'perihal' => ['required', 'string', 'max:255'],
@@ -47,6 +48,8 @@ class SuratKeluarController extends Controller
             'tipe.in' => 'Tipe surat harus salah satu dari: umum atau permohonan.',
             'ditujukan.required' => 'Tujuan surat harus dipilih.',
             'ditujukan.exists' => 'Tujuan tidak ditemukan dalam data bagian.',
+            'nomor.required' => 'Nomor surat harus diisi.',
+            'nomor.max' => 'Nomor maksimal 255 karakter.',
             'sifat.required' => 'Sifat surat harus dipilih.',
             'sifat.in' => 'Sifat surat tidak valid.',
             'lampiran.max' => 'Lampiran maksimal 255 karakter.',
@@ -69,6 +72,7 @@ class SuratKeluarController extends Controller
         $surat = new Surat();
         $surat->tipe = $validated['tipe'];
         $surat->ditujukan = $validated['ditujukan'];
+        $surat->nomor = $validated['nomor'];
         $surat->sifat = $validated['sifat'];
         $surat->lampiran = $validated['lampiran'] ?? null;
         $surat->perihal = $validated['perihal'];
@@ -116,6 +120,7 @@ class SuratKeluarController extends Controller
         $request->validate([
             'tipe'       => 'required|in:umum,permohonan',
             'ditujukan'  => 'required|exists:bagian,id',
+            'nomor'   => 'required|string',
             'sifat'      => 'required|in:biasa,penting,segera,amat segera',
             'lampiran'   => 'required|string',
             'perihal'    => 'required|string',
@@ -129,6 +134,7 @@ class SuratKeluarController extends Controller
 
         $surat->tipe      = $request->tipe;
         $surat->ditujukan = $request->ditujukan;
+        $surat->nomor     = $request->nomor;
         $surat->sifat     = $request->sifat;
         $surat->lampiran  = $request->lampiran;
         $surat->perihal   = $request->perihal;

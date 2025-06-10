@@ -30,10 +30,15 @@ class AppServiceProvider extends ServiceProvider
         $jumlahDisposisiAsda = \App\Models\LembarDisposisiAsda::where('tgl_diterima', '=',null)
             ->where('ditujukan','=', auth()->user()?->bagian_id)
             ->count();
+        $jumlahKartuDisposisi = \App\Models\KartuDisposisi::where('tgl_diterima_asda', '=',null)
+            ->where('ditujukan','=', auth()->user()?->bagian_id)
+            ->count();
 
         $view->with('smbd', $jumlahSuratUmum);
         $view->with('jds', $jumlahDisposisiSekda);
         $view->with('jda', $jumlahDisposisiAsda);
+        $view->with('jkd', $jumlahKartuDisposisi);
+
         });
     }
 }

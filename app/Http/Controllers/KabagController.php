@@ -16,7 +16,7 @@ class KabagController extends Controller
     public function __construct()
     {
         if(auth()->user()->bagian->id !== 1){
-            abort(404);
+            abort(403, 'Akses ditolak: bukan dari bagian yang diizinkan');
         }
     }
 
@@ -117,4 +117,46 @@ class KabagController extends Controller
 
         return view('pages.kabag.kartu_disposisi_view', $data);
     }
+
+    public function notaDinasCreate($id)
+    {
+        $data = [
+            'title' => 'Nota Dinas Create',
+            'ks' => KartuDisposisi::findOrFail($id)
+        ];
+
+        return view('pages.kabag.nota_dinas', $data);
+    }
+
+    public function notaDinasStore(Request $request)
+    {
+        $request->validate([
+            'file_nota_dinas' => 'required|file|mimes:pdf|max:3072',
+            'kartu_disposisi_id' => 'required|exists:kartu_disposisi,id',
+        ]);
+
+        $kartuDisposisi = KartuDisposisi::findOrFail($request->kartu_disposisi_id);
+
+        if ($request->hasFile('file_nota_dinas')) {
+            $file = $request->file('file_nota_dinas');
+            $path = $file->store('nota_dinas', 'public');
+
+            $kartuDisposisi->file_nota_dinas = $path;
+            $kartuDisposisi->ditujukan = 3;
+
+            $statusSurat = new StatusSurat();
+            $statusSurat->surat_id = $kartuDisposisi->surat_id;
+            $statusSurat->bagian_id = auth()->user()->bagian->id;
+            $statusSurat->status = 'Dibuatkan Nota Dinas';
+            $statusSurat->color = 'success';
+
+            DB::transaction(function () use ($kartuDisposisi, $statusSurat) {
+                $kartuDisposisi->save();
+                $statusSurat->save();
+            });
+        }
+
+        return redirect('surat_masuk')->with('success', 'Nota Dinas berhasil diunggah.');
+    }
+
 }

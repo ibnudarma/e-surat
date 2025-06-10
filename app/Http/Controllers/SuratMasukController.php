@@ -22,7 +22,33 @@ class SuratMasukController extends Controller
             ->with('pengirim','statusTerakhir')->orderBy('created_at','desc')->get()
         ];
 
-        return view('pages.surat_masuk.index', $data);
+        // Kabag
+        if(auth()->user()->bagian->id === 1){
+
+            return view('pages.kabag.surat_masuk', $data);
+
+        // Sekda
+        }elseif (auth()->user()->bagian->id === 2){
+
+            return view('pages.sekda.surat_masuk', $data);
+
+        // Asda
+        }elseif (auth()->user()->bagian->id === 3){
+
+            return view('pages.asda.surat_masuk', $data);
+
+        // BPKAD
+        }elseif (auth()->user()->bagian->id === 4){
+
+            return view('pages.bpkad.surat_masuk', $data);
+
+        // BUMD
+        }else{
+
+            return view('pages.bumd.surat_masuk', $data);
+
+        }
+
     }
 
     public function diterima($id)

@@ -14,7 +14,7 @@ class SekdaController extends Controller
     public function __construct()
     {
         if(auth()->user()->bagian->id !== 2){
-            abort(404);
+            abort(403, 'Akses ditolak: bukan dari bagian yang diizinkan');
         }
     }
 
@@ -65,5 +65,16 @@ class SekdaController extends Controller
         });
 
         return redirect('surat_masuk')->with('success', 'Berhasil Didisposisikan');
+    }
+
+    public function disposisiView($id)
+    {
+        $disposisi = LembarDisposisiSekda::where('id', '=', $id)->firstOrFail();
+        $data = [
+            'title' => 'Disposisi View',
+            'disposisi' => $disposisi
+        ];
+
+        return view('pages.sekda.disposisi_view', $data);
     }
 }

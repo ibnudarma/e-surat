@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('ditujukan');
             $table->foreignId('noref')->nullable()->default(null);
             $table->enum('tipe', ['umum', 'permohonan'])->default('umum');
+            $table->string('nomor')->nullable();
             $table->string('sifat')->nullable();
             $table->string('lampiran')->nullable();
             $table->string('perihal')->nullable();

@@ -37,9 +37,19 @@
     margin-top: 40px;
     text-align: right;
   }
+
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 800px;
+    margin: 20px auto;
+  }
 </style>
 
-<a class="btn btn-danger" href="{{ url('surat_masuk') }}">Kembali</a>
+<div class="action-buttons">
+  <a class="btn btn-danger" href="{{ url('surat_masuk') }}">Kembali</a>
+  <button class="btn btn-primary" onclick="window.print()">Print</button>
+</div>
 
 <div class="kartu-disposisi-container">
   <div class="header">

@@ -14,4 +14,9 @@ class LembarDisposisiSekda extends Model
     {
         return $this->belongsTo(Surat::class, 'surat_id', 'id');
     }
+
+    public function bagian()
+    {
+        return $this->belongsTo(Bagian::class, 'ditujukan', 'id');
+    }
 }

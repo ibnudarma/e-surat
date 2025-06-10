@@ -34,10 +34,7 @@
                 <span class="hide-menu d-inline-flex align-items-center">
                     Surat Masuk
                     @php
-                        $surat = 0;
-                        $surat + $smbd;
-                        $surat + $jds;
-                        $surat + $jda;
+                        $surat = $smbd + $jds + $jda + $jkd;
                     @endphp
                     @if ($surat > 0)
                     <span class="badge bg-warning text-white ms-2">{{ $surat }}</span>

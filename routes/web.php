@@ -42,15 +42,22 @@ Route::middleware('auth')->group(function() {
     Route::post('kabag/kartu_disposisi', [KabagController::class, 'kartuDisposisiStore']);
     Route::get('kabag/kartu_disposisi_view/{id}', [KabagController::class, 'kartuDisposisiView']);
     Route::get('kabag/disposisi_sekda/diterima/{id}', [KabagController::class, 'terimaDisposisiSekda']);
-    Route::get('disposisi_asda/diterima/{id}', [KabagController::class, 'terimaDisposisiAsda']);
+    Route::get('kabag/disposisi_asda/diterima/{id}', [KabagController::class, 'terimaDisposisiAsda']);
+    Route::get('kabag/nota_dinas/create/{id}', [KabagController::class, 'notaDinasCreate']);
+    Route::post('kabag/nota_dinas/upload', [KabagController::class, 'notaDinasStore']);
 
     // Sekda
-    Route::get('disposisi/sekda/{id}', [SekdaController::class, 'disposisiCreate']);
-    Route::post('disposisi/sekda', [SekdaController::class, 'disposisiStore']);
+    Route::get('sekda/disposisi/create/{id}', [SekdaController::class, 'disposisiCreate']);
+    Route::post('sekda/disposisi', [SekdaController::class, 'disposisiStore']);
+    Route::get('sekda/disposisi/view/{id}', [SekdaController::class, 'disposisiView']);
 
     // Asda
     Route::get('asda/disposisi_sekda', [AsdaController::class, 'disposisiSekda']);
     Route::get('asda/disposisi_sekda/diterima/{id}', [AsdaController::class, 'terimaDisposisiSekda']);
-    Route::get('disposisi/asda/{id}', [AsdaController::class, 'disposisiCreate']);
-    Route::post('disposisi/asda', [AsdaController::class, 'disposisiStore']);
+    Route::get('asda/disposisi/create/{id}', [AsdaController::class, 'disposisiCreate']);
+    Route::post('asda/disposisi/store', [AsdaController::class, 'disposisiStore']);
+    Route::get('asda/disposisi/view/{id}', [AsdaController::class, 'disposisiView']);
+    Route::get('asda/kartu_disposisi/diterima/{id}', [AsdaController::class, 'terimaKartuDisposisi']);
+    Route::get('asda/permohonan_pencairan/{id}', [AsdaController::class, 'permohonanPencairanCreate']);
+    Route::post('asda/permohonan_pencairan', [AsdaController::class, 'permohonanPencairanStore']);
 });

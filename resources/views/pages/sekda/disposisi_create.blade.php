@@ -4,7 +4,7 @@
 
 <div class="card">
     <div class="card-body">
-        <form action="{{ url('disposisi/sekda') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('sekda/disposisi') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <input type="text" name="surat_id" value="{{ $surat->id }}" hidden>
