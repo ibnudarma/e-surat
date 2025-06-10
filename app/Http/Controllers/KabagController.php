@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\KartuDisposisi;
+use App\Models\LembarDisposisiAsda;
 use App\Models\LembarDisposisiSekda;
 use App\Models\StatusSurat;
 use App\Models\Surat;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
@@ -39,12 +41,17 @@ class KabagController extends Controller
             'catatan' => ['required'],
         ]);
 
-        $disposisiSekda = LembarDisposisiSekda::where('surat_id', '=', $validated['surat_id'])->exists();
-        if($disposisiSekda){
-            dd($disposisiSekda);
+        $kartuDisposisi = new KartuDisposisi();
+
+        $surat = Surat::findOrFail($validated['surat_id']);
+
+        if($surat->disposisiSekda){
+            $kartuDisposisi->lembar_disposisi_sekda_id = $surat->disposisiSekda->id;
+        }
+        if($surat->disposisiAsda){
+            $kartuDisposisi->lembar_disposisi_asda_id = $surat->disposisiAsda->id;
         }
 
-        $kartuDisposisi = new KartuDisposisi();
         $kartuDisposisi->surat_id = (int)$validated['surat_id'];
         $kartuDisposisi->index = $validated['index'];
         $kartuDisposisi->tgl_penyelesaian = $validated['tgl_penyelesaian'];
@@ -64,7 +71,50 @@ class KabagController extends Controller
         });
 
         return redirect('surat_masuk')->with('success', 'Berhasil membuat Kartu Disposisi');
+    }
 
+    public function terimaDisposisiSekda($id)
+    {
+        $disposisiSekda = LembarDisposisiSekda::findOrFail($id);
+        $disposisiSekda->tgl_diterima = Carbon::now();
+        $statusSurat = new StatusSurat();
+        $statusSurat->surat_id = $disposisiSekda->surat_id;
+        $statusSurat->bagian_id = auth()->user()->bagian->id;
+        $statusSurat->status = 'Diterima oleh Kabag';
+        $statusSurat->color = 'success';
 
+        DB::transaction(function () use ($disposisiSekda, $statusSurat) {
+            $disposisiSekda->save();
+            $statusSurat->save();
+        });
+        return back();
+    }
+
+    public function terimaDisposisiAsda($id)
+    {
+        $disposisiAsda = LembarDisposisiAsda::findOrFail($id);
+        $disposisiAsda->tgl_diterima = Carbon::now();
+        $statusSurat = new StatusSurat();
+        $statusSurat->surat_id = $disposisiAsda->surat_id;
+        $statusSurat->bagian_id = auth()->user()->bagian->id;
+        $statusSurat->status = 'Diterima oleh Kabag';
+        $statusSurat->color = 'success';
+
+        DB::transaction(function () use ($disposisiAsda, $statusSurat) {
+            $disposisiAsda->save();
+            $statusSurat->save();
+        });
+        return back();
+    }
+
+    public function kartuDisposisiView($id)
+    {
+        
+        $data = [
+            'title' => 'Kartu Disposisi View',
+            'ks' => KartuDisposisi::findOrFail($id)
+        ];
+
+        return view('pages.kabag.kartu_disposisi_view', $data);
     }
 }

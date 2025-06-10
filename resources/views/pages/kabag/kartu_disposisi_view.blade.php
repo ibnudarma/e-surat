@@ -39,6 +39,8 @@
   }
 </style>
 
+<a class="btn btn-danger" href="{{ url('surat_masuk') }}">Kembali</a>
+
 <div class="kartu-disposisi-container">
   <div class="header">
     <h3>KARTU DISPOSISI</h3>
@@ -46,42 +48,41 @@
 
 <div class="row">
   <label>Index:</label>
-  <span>123</span>
+  <span>{{ $ks->index }}</span>
   <label>Tanggal Penyelesaian:</label>
-  <span>12</span>
+  <span>{{ $ks->tgl_penyelesaian }}</span>
 <label>Diterima Tgl:</label>
-<span>12</span>
+<span>{{ $ks->surat->tgl_diterima }}</span>
 </div>
 
 <div class="row">
   <label>Dari:</label>
-  <span></span>
+  <span>{{ $ks->surat->pengirim->nama_bagian }}</span>
     <label>Perihal:</label>
-  <span></span>
+  <span>{{ $ks->surat->perihal }}</span>
     <label>Tgl. Surat:</label>
-  <span></span>
+  <span>{{ $ks->surat->tgl_surat }}</span>
 </div>
 
 <div class="row">
   <label>No. Surat:</label>
-  <span></span>
+  <span>{{ $ks->surat->nomor }}</span>
 </div>
 
 <div class="row">
   <label>Intruksi / Informasi:</label>
-  <span></span>
+  <span>{{ $ks->keputusan }}</span>
   <label>Diteruskan Kepada:</label>
-  <span></span>
+  <span>{{ $ks->diteruskan }}</span>
 </div>
 
 <div class="box">
-  <strong>Catatan:</strong> 
+  <strong>Catatan: </strong> {{ $ks->catatan }} 
 </div>
 
 <div class="signature">
     <p><strong>KEPALA BAGIAN PEREKONOMIAN DAN SDM KABUPATEN KARAWANG</strong></p>
-    <br><br><br>
-    <!-- tambahkan ttd disini -->
+    <img class="mx-4" src="{{ url('storage/' . auth()->user()->profile->ttd) }}" alt="" width="100px">
     <p><strong>HJ. YAYAT ROHAYATI, MM.</strong><br>
     Pembina Utama Muda<br>
     NIP. 19671108 199303 2 003</p>

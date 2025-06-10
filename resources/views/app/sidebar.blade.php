@@ -33,8 +33,14 @@
                 </span>
                 <span class="hide-menu d-inline-flex align-items-center">
                     Surat Masuk
-                    @if(isset($smbd) && $smbd > 0)
-                        <span class="badge bg-warning text-white ms-2">{{ $smbd }}</span>
+                    @php
+                        $surat = 0;
+                        $surat + $smbd;
+                        $surat + $jds;
+                        $surat + $jda;
+                    @endphp
+                    @if ($surat > 0)
+                    <span class="badge bg-warning text-white ms-2">{{ $surat }}</span>
                     @endif
                 </span>
                 </a>
@@ -61,14 +67,6 @@
             <li class="nav-small-cap">
                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                 <span class="hide-menu">Menu Asda</span>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="{{ url('asda/disposisi_sekda') }}" aria-expanded="false">
-                    <span>
-                        <i class="ti ti-mail"></i>
-                    </span>
-                    <span class="hide-menu">Disposisi Sekda</span>
-                </a>
             </li>
             @endif
 

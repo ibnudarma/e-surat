@@ -16,7 +16,10 @@ class SuratMasukController extends Controller
     {
         $data = [
             'title' => 'Surat Masuk',
-            'surat_masuk' => Surat::where('ditujukan', '=', auth()->user()->bagian->id)->with('pengirim','statusTerakhir')->orderBy('created_at','desc')->get()
+            'surat_masuk' => Surat::where('ditujukan', '=', auth()->user()->bagian->id)
+            ->orWhereHas('disposisiSekda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            ->orWhereHas('disposisiAsda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            ->with('pengirim','statusTerakhir')->orderBy('created_at','desc')->get()
         ];
 
         return view('pages.surat_masuk.index', $data);
@@ -49,6 +52,8 @@ class SuratMasukController extends Controller
     {
         $surat = Surat::where('id', $id)
             ->where('ditujukan', auth()->user()->bagian->id)
+            ->orWhereHas('disposisiSekda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            ->orWhereHas('disposisiAsda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
             ->firstOrFail();
         $data = [
             'title' => 'Detail Surat Masuk',

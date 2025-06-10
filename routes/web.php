@@ -40,12 +40,17 @@ Route::middleware('auth')->group(function() {
     // Kabag
     Route::get('kabag/kartu_disposisi/{id}', [KabagController::class, 'kartuDisposisiCreate']);
     Route::post('kabag/kartu_disposisi', [KabagController::class, 'kartuDisposisiStore']);
-    Route::post('kabag/kartu_disposisi_view/{id}', [KabagController::class, 'kartuDisposisiStore']);
+    Route::get('kabag/kartu_disposisi_view/{id}', [KabagController::class, 'kartuDisposisiView']);
+    Route::get('kabag/disposisi_sekda/diterima/{id}', [KabagController::class, 'terimaDisposisiSekda']);
+    Route::get('disposisi_asda/diterima/{id}', [KabagController::class, 'terimaDisposisiAsda']);
 
-    // Disposisi Sekda
+    // Sekda
     Route::get('disposisi/sekda/{id}', [SekdaController::class, 'disposisiCreate']);
     Route::post('disposisi/sekda', [SekdaController::class, 'disposisiStore']);
 
     // Asda
     Route::get('asda/disposisi_sekda', [AsdaController::class, 'disposisiSekda']);
+    Route::get('asda/disposisi_sekda/diterima/{id}', [AsdaController::class, 'terimaDisposisiSekda']);
+    Route::get('disposisi/asda/{id}', [AsdaController::class, 'disposisiCreate']);
+    Route::post('disposisi/asda', [AsdaController::class, 'disposisiStore']);
 });

@@ -21,11 +21,19 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('*', function ($view) {
-        $jumlah = \App\Models\Surat::where('tgl_diterima', '=',null)
-            ->where('ditujukan', auth()->user()?->bagian_id)
+        $jumlahSuratUmum = \App\Models\Surat::where('tgl_diterima', '=',null)
+            ->where('ditujukan','=', auth()->user()?->bagian_id)
+            ->count();
+        $jumlahDisposisiSekda = \App\Models\LembarDisposisiSekda::where('tgl_diterima', '=',null)
+            ->where('ditujukan','=', auth()->user()?->bagian_id)
+            ->count();
+        $jumlahDisposisiAsda = \App\Models\LembarDisposisiAsda::where('tgl_diterima', '=',null)
+            ->where('ditujukan','=', auth()->user()?->bagian_id)
             ->count();
 
-        $view->with('smbd', $jumlah);
+        $view->with('smbd', $jumlahSuratUmum);
+        $view->with('jds', $jumlahDisposisiSekda);
+        $view->with('jda', $jumlahDisposisiAsda);
         });
     }
 }

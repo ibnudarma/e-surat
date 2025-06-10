@@ -50,18 +50,18 @@
                     <td>{{ $value->tipe }}</td>
                     <td>{{ $value->perihal }}</td>
                     <td>{{ $value->pengirim->nama_bagian }}</td>
-                    <td>
-                        @if($value->dibalas !== null)
-                        <span class="badge rounded-pill text-bg-info">dibalas</span>  
-                        @elseif ($value->tgl_diterima === null)
-                          <span class="badge rounded-pill text-bg-warning">belum diterima</span>  
-                        @else
-                          <span class="badge rounded-pill text-bg-success">diterima</span>     
-                        @endif
-                    </td>
+                    <td><span class="badge rounded-pill text-bg-{{ $value->statusTerakhir->color }}">{{ $value->statusTerakhir->status }}</span></td>
                     <td>
                     @if ($value->tgl_diterima === null)
                         <a href="{{ url('surat_masuk/diterima/' . $value->id) }}" class="btn btn-success btn-sm">Terima</a>
+                    @elseif ($value->disposisiSekda && $value->disposisiSekda->tgl_diterima === Null)
+                        @if (auth()->user()->id === 3)
+                        <a href="{{ url('asda/disposisi_sekda/diterima/' . $value->disposisiSekda->id) }}" class="btn btn-success btn-sm">Terima</a>
+                        @elseif (auth()->user()->id === 1)
+                        <a href="{{ url('kabag/disposisi_sekda/diterima/' . $value->disposisiSekda->id) }}" class="btn btn-success btn-sm">Terima</a>
+                        @endif
+                    @elseif ($value->disposisiAsda && $value->disposisiAsda->tgl_diterima === Null)
+                        <a href="{{ url('disposisi_asda/diterima/' . $value->disposisiAsda->id) }}" class="btn btn-success btn-sm">Terima</a>
                     @else   
                         <div class="dropdown">
                             <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -72,7 +72,7 @@
                                 <li><a class="dropdown-item" href="{{ url('surat_masuk/' . $value->id) }}">detail</a></li>
                                 <li><a class="dropdown-item" href="{{ url('storage/' . $value->file) }}" target="_blank">lihat surat</a></li>
                                 @if ($value->dibalas === null && $value->tipe === 'umum')
-                                <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">balas surat</a></li>
+                                    <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">balas surat</a></li>
                                 @endif
                                 @if ($value->tipe === 'permohonan')
                                     @if (auth()->user()->bagian->id === 1)
