@@ -160,8 +160,7 @@ class SuratKeluarController extends Controller
     public function show($id)
     {
         $surat = Surat::where('id', $id)
-            ->where('bagian_id', auth()->user()->bagian->id)
-            ->firstOrFail();
+                ->firstOrFail();
         $data = [
             'title' => 'Detail Surat Keluar',
             'status_surat' => StatusSurat::where('surat_id', '=', $id)->get(),

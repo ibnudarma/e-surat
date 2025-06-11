@@ -58,7 +58,7 @@
                         <a href="{{ url('surat_masuk/diterima/' . $value->id) }}" class="btn btn-success btn-sm">Terima</a>
                     @elseif ($value->disposisiSekda && $value->disposisiSekda->tgl_diterima === null)
                         <a href="{{ url('asda/disposisi_sekda/diterima/' . $value->disposisiSekda->id) }}" class="btn btn-success btn-sm">Terima</a>
-                    @elseif ($value->kartuDisposisi && $value->KartuDisposisi->tgl_diterima_asda === null)
+                    @elseif ($value->kartuDisposisi && $value->kartuDisposisi->tgl_diterima_asda === null)
                         <a href="{{ url('asda/kartu_disposisi/diterima/' . $value->kartuDisposisi->id) }}" class="btn btn-success btn-sm">Terima</a>
                     @else   
                         <div class="dropdown">
@@ -71,15 +71,15 @@
                                 @if ($value->dibalas === null && $value->tipe === 'umum')
                                     <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">balas surat</a></li>
                                 @endif
-                                @if ($value->tipe === 'permohonan' && $value->disposisiAsda === null)
+                                @if ($value->tipe === 'permohonan' && $value->disposisiAsda === null && $value->kartuDisposisi === null)
                                     <li><a class="dropdown-item" href="{{ url('asda/disposisi/create/' . $value->id) }}">Disposisikan</a></li>
                                 @elseif ($value->tipe === 'permohonan' && $value->disposisiAsda !== null)
                                     <li><a class="dropdown-item" href="{{ url('asda/disposisi/view/' . $value->disposisiAsda->id) }}">Lihat Lembar Disposisi</a></li>
-                                    @if ($value->tipe === 'permohonan' && isset($value->KartuDisposisi->file_nota_dinas) !== null)
-                                        <li><a class="dropdown-item" href="{{ url('storage/' . $value->KartuDisposisi->file_nota_dinas) }}" target="_blank">Lihat Nota Dinas</a></li>
-                                        @if ($value->kartuDisposisi !== null && $value->kartuDisposisi->surat_permohonan_pencairan_id === null)
-                                            <li><a class="dropdown-item" href="{{ url('asda/permohonan_pencairan/' . $value->kartuDisposisi->id) }}">Buat Permohonan Pencairan</a></li> 
-                                        @endif
+                                @endif
+                                @if ($value->tipe === 'permohonan' && $value->kartuDisposisi)
+                                    <li><a class="dropdown-item" href="{{ url('storage/' . $value->KartuDisposisi->file_nota_dinas) }}" target="_blank">Lihat Nota Dinas</a></li>
+                                    @if ($value->kartuDisposisi && $value->kartuDisposisi->surat_permohonan_pencairan_id === null)
+                                        <li><a class="dropdown-item" href="{{ url('asda/permohonan_pencairan/' . $value->kartuDisposisi->id) }}">Buat Permohonan Pencairan</a></li> 
                                     @endif
                                 @endif
                             </ul>

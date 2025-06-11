@@ -19,6 +19,7 @@ class SuratMasukController extends Controller
             'surat_masuk' => Surat::where('ditujukan', '=', auth()->user()->bagian->id)
             ->orWhereHas('disposisiSekda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
             ->orWhereHas('disposisiAsda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            ->orWhereHas('kartuDisposisi', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
             ->with('pengirim','statusTerakhir')->orderBy('created_at','desc')->get()
         ];
 
@@ -76,10 +77,12 @@ class SuratMasukController extends Controller
 
     public function show($id)
     {
+        // awalnya dibuat untuk validasi agar yang diliat hanya user yang punya akses saja
         $surat = Surat::where('id', $id)
-            ->where('ditujukan', auth()->user()->bagian->id)
-            ->orWhereHas('disposisiSekda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
-            ->orWhereHas('disposisiAsda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            // ->where('ditujukan', auth()->user()->bagian->id)
+            // ->orWhereHas('disposisiSekda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            // ->orWhereHas('disposisiAsda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            // ->orWhereHas('kartuDisposisi', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
             ->firstOrFail();
         $data = [
             'title' => 'Detail Surat Masuk',

@@ -64,11 +64,12 @@
 
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('surat_masuk/' . $value->id) }}">detail</a></li>
-                                @if ($value->dibalas === null && $value->tipe === 'umum')
-                                    <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">Balas surat</a></li>
+                                @if ($value->balasan && $value->balasan->kartuDisposisi !== null)
+                                    @if($value->balasan->kartuDisposisi->surat_perintah_pencairan_id === null)
+                                    <li><a class="dropdown-item" href="{{ url('bpkad/surat_perintah/create/' . $value->balasan->kartuDisposisi->id) }}">Buat Surat Perintah</a></li>                                    
                                     @endif
-                                @if ($value->kartuDisposisi !== null && $value->kartuDisposisi->surat_perintah_pencairan_id === null)
-                                    <li><a class="dropdown-item" href="{{ url('bpkad/surat_perintah/create' . $value->id) }}">Buat Surat Perintah</a></li>                                    
+                                @elseif ($value->dibalas === null && $value->tipe === 'umum')
+                                    <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">Balas surat</a></li>
                                 @endif
                             </ul>
                         </div>

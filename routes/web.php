@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\AsdaController;
+use App\Http\Controllers\BPKADController;
+use App\Http\Controllers\BUMDController;
 use App\Http\Controllers\KabagController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SekdaController;
@@ -45,6 +47,7 @@ Route::middleware('auth')->group(function() {
     Route::get('kabag/disposisi_asda/diterima/{id}', [KabagController::class, 'terimaDisposisiAsda']);
     Route::get('kabag/nota_dinas/create/{id}', [KabagController::class, 'notaDinasCreate']);
     Route::post('kabag/nota_dinas/upload', [KabagController::class, 'notaDinasStore']);
+    Route::get('kabag/finish/{id}', [KabagController::class, 'finish']);
 
     // Sekda
     Route::get('sekda/disposisi/create/{id}', [SekdaController::class, 'disposisiCreate']);
@@ -60,4 +63,10 @@ Route::middleware('auth')->group(function() {
     Route::get('asda/kartu_disposisi/diterima/{id}', [AsdaController::class, 'terimaKartuDisposisi']);
     Route::get('asda/permohonan_pencairan/{id}', [AsdaController::class, 'permohonanPencairanCreate']);
     Route::post('asda/permohonan_pencairan', [AsdaController::class, 'permohonanPencairanStore']);
+
+    Route::get('bpkad/surat_perintah/create/{id}', [BPKADController::class, 'perintahPencairanCreate']);
+    Route::post('bpkad/surat_perintah', [BPKADController::class, 'perintahPencairanStore']);
+
+    Route::get('bumd/surat_pengakuan/create/{id}', [BUMDController::class, 'pengakuanPencairanCreate']);
+    Route::post('bumd/surat_pengakuan', [BUMDController::class, 'pengakuanPencairanStore']);
 });

@@ -68,8 +68,12 @@
 
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('surat_masuk/' . $value->id) }}">detail</a></li>
-                                @if ($value->dibalas === null && $value->tipe === 'umum')
-                                    <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">balas surat</a></li>
+                                @if ($value->balasan && $value->balasan->kartuDisposisi !== null)
+                                    @if($value->balasan->kartuDisposisi->selesai === 0)
+                                    <li><a class="dropdown-item" href="{{ url('kabag/finish/' . $value->balasan->kartuDisposisi->id) }}">Tandai Selesai</a></li>                                  
+                                    @endif
+                                @elseif ($value->dibalas === null && $value->tipe === 'umum')
+                                    <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">Balas surat</a></li>
                                 @endif
                                 @if ($value->tipe === 'permohonan' && $value->kartuDisposisi === null)
                                     <li><a class="dropdown-item" href="{{ url('kabag/kartu_disposisi/' . $value->id) }}">Buat Kartu Disposisi</a></li>

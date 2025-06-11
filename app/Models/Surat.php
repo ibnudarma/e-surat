@@ -57,4 +57,5 @@ class Surat extends Model
        return $this->hasOne(KartuDisposisi::class, 'surat_id', 'id');
     }
 
+
 }

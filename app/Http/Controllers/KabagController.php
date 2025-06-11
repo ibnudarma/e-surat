@@ -159,4 +159,25 @@ class KabagController extends Controller
         return redirect('surat_masuk')->with('success', 'Nota Dinas berhasil diunggah.');
     }
 
+    public function finish($id)
+    {
+        
+        $kartuDisposisi = KartuDisposisi::findOrFail($id);
+        $kartuDisposisi->selesai = 1;
+
+        $statusSurat = new StatusSurat();
+        $statusSurat->surat_id = $kartuDisposisi->surat_id;
+        $statusSurat->bagian_id = auth()->user()->bagian->id;
+        $statusSurat->status = 'Ditandai selesai oleh ' . auth()->user()->bagian->nama_bagian;
+        $statusSurat->color = 'success';
+
+        DB::transaction(function () use ($kartuDisposisi, $statusSurat) {
+            $kartuDisposisi->save();
+            $statusSurat->save();
+        });
+
+        return redirect('surat_masuk')->with('success', 'Berhasil ditandai Selesai');
+
+    }
+
 }

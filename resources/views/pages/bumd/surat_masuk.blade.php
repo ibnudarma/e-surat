@@ -64,8 +64,12 @@
 
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('surat_masuk/' . $value->id) }}">detail</a></li>
-                                @if ($value->dibalas === null && $value->tipe === 'umum')
-                                    <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">balas surat</a></li>
+                                @if ($value->balasan && $value->balasan->kartuDisposisi !== null)
+                                    @if($value->balasan->kartuDisposisi->surat_pengakuan_pencairan_id === null)
+                                    <li><a class="dropdown-item" href="{{ url('bumd/surat_pengakuan/create/' . $value->balasan->kartuDisposisi->id) }}">Buat Surat Pengakuan</a></li>                                  
+                                    @endif
+                                @elseif ($value->dibalas === null && $value->tipe === 'umum')
+                                    <li><a class="dropdown-item" href="{{ url('surat_masuk/balas/' . $value->id) }}">Balas surat</a></li>
                                 @endif
                             </ul>
                         </div>
