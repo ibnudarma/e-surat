@@ -20,15 +20,6 @@ class AsdaController extends Controller
            abort(403, 'Akses ditolak: bukan dari bagian yang diizinkan');
         }
     }
-    public function disposisiSekda()
-    {
-        $data = [
-            'title' => 'Disposisi Sekda',
-            'disposisi' => LembarDisposisiSekda::where('ditujukan', '=', auth()->user()->bagian->id)->get()
-        ];
-
-        return view('pages.asda.disposisi_sekda', $data); 
-    }
 
     public function terimaDisposisiSekda($id)
     {

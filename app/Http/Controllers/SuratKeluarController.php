@@ -82,15 +82,16 @@ class SuratKeluarController extends Controller
 
         $bagian_id = auth()->user()->bagian->id;
         $penerima = Bagian::where('id', '=',$surat->ditujukan)->value('nama_bagian');
+
         $statusSurat = new StatusSurat();
         $statusSurat->bagian_id = $bagian_id;
         $statusSurat->status = 'menunggu diterima oleh ' . $penerima;
         $statusSurat->color = 'warning';
 
         DB::transaction(function () use ($surat, $statusSurat) {
-        $surat->save();
-        $statusSurat->surat_id = $surat->id;
-        $statusSurat->save();
+            $surat->save();
+            $statusSurat->surat_id = $surat->id;
+            $statusSurat->save();
         });
 
         return redirect('surat_keluar')->with('success', 'Surat berhasil dikirim');
@@ -120,7 +121,7 @@ class SuratKeluarController extends Controller
         $request->validate([
             'tipe'       => 'required|in:umum,permohonan',
             'ditujukan'  => 'required|exists:bagian,id',
-            'nomor'   => 'required|string',
+            'nomor'      => 'required|string',
             'sifat'      => 'required|in:biasa,penting,segera,amat segera',
             'lampiran'   => 'required|string',
             'perihal'    => 'required|string',

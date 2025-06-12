@@ -12,15 +12,51 @@ use Str;
 
 class SuratMasukController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $userBagianId = auth()->user()->bagian->id;
+
+        $query = Surat::query()
+            ->where(function ($q) use ($userBagianId) {
+                $q->where('ditujukan', $userBagianId)
+                    ->orWhereHas('disposisiSekda', function ($q) use ($userBagianId) {
+                        $q->where('ditujukan', $userBagianId);
+                    })
+                    ->orWhereHas('disposisiAsda', function ($q) use ($userBagianId) {
+                        $q->where('ditujukan', $userBagianId);
+                    })
+                    ->orWhereHas('kartuDisposisi', function ($q) use ($userBagianId) {
+                        $q->where('ditujukan', $userBagianId);
+                    });
+        });
+
+        if ($request->filled('startDate') && $request->filled('endDate')) {
+            $query->whereBetween('tgl_surat', [$request->startDate, $request->endDate]);
+        }
+
+        if ($request->filled('bagian') && $request->bagian !== '') {
+            $query->where('bagian_id', $request->bagian);
+        }
+
+        if ($request->filled('tipe') && $request->bagian !== '') {
+            $query->where('tipe', $request->tipe);
+        }
+
+        if ($request->filled('tipe') && $request->bagian !== '') {
+            $query->where('tipe', $request->tipe);
+        }
+
+        if ($request->filled('nomor')) {
+        $query->where('nomor', 'like', '%' . $request->nomor . '%');
+        }
+
+        $surat_masuk = $query->with(['pengirim', 'statusTerakhir'])->orderBy('created_at', 'desc')->get();
+        
         $data = [
             'title' => 'Surat Masuk',
-            'surat_masuk' => Surat::where('ditujukan', '=', auth()->user()->bagian->id)
-            ->orWhereHas('disposisiSekda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
-            ->orWhereHas('disposisiAsda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
-            ->orWhereHas('kartuDisposisi', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
-            ->with('pengirim','statusTerakhir')->orderBy('created_at','desc')->get()
+            'bagian' => Bagian::where('id', '!=', $userBagianId)->get(),
+            'surat_masuk' => $surat_masuk,
+            'request' => $request
         ];
 
         // Kabag
