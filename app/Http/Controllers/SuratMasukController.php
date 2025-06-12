@@ -42,7 +42,7 @@ class SuratMasukController extends Controller
             $query->where('tipe', $request->tipe);
         }
 
-        if ($request->filled('tipe') && $request->bagian !== '') {
+        if ($request->filled('tipe') && $request->tipe !== '') {
             $query->where('tipe', $request->tipe);
         }
 
@@ -55,8 +55,8 @@ class SuratMasukController extends Controller
         $data = [
             'title' => 'Surat Masuk',
             'bagian' => Bagian::where('id', '!=', $userBagianId)->get(),
-            'surat_masuk' => $surat_masuk,
-            'request' => $request
+            'request' => $request,
+            'surat_masuk' => $surat_masuk
         ];
 
         // Kabag

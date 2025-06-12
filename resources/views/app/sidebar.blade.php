@@ -54,6 +54,14 @@
             <li class="nav-small-cap">
                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                 <span class="hide-menu">Menu Kabag</span>
+            </li>
+               <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ url('kabag/users') }}" aria-expanded="false">
+                <span>
+                    <i class="ti ti-user"></i>
+                </span>
+                <span class="hide-menu">Users</span>
+                </a>
             </li>                
             @elseif (auth()->user()->bagian->id === 2)
             <li class="nav-small-cap">

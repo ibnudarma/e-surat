@@ -18,43 +18,56 @@
 <div class="card shadow-sm rounded">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center mb-0">
-      <h5 class="card-title mb-0 fw-bold">Filter Dokumen</h5>
+      <h5 class="card-title mb-0 fw-bold">Filter Surat</h5>
       <button class="btn btn-primary" id="toggleFilter">Show/Hide</button>
     </div>
   </div>
   <div class="card-body" id="filterBody" style="display: none;">
-    <form>
-      <div class="row g-3 mb-3">
-        <div class="col-md-3">
-          <label for="startDate" class="form-label">Tanggal Mulai <span class="text-danger">*</span></label>
-          <input type="date" class="form-control" id="startDate" value="2025-05-01" required>
-        </div>
-        <div class="col-md-3">
-          <label for="endDate" class="form-label">Tanggal Selesai <span class="text-danger">*</span></label>
-          <input type="date" class="form-control" id="endDate" value="2025-06-11" required>
-        </div>
-        <div class="col-md-6">
-          <label for="noSurat" class="form-label">No Surat</label>
-          <input type="text" class="form-control" id="noSurat" placeholder="">
-        </div>
-      </div>
-      <div class="row g-3 mb-4">
-        <div class="col-md-6">
-          <label for="perihal" class="form-label">Perihal Surat</label>
-          <input type="text" class="form-control" id="perihal" placeholder="">
-        </div>
-        <div class="col-md-6">
-          <label for="jenisSurat" class="form-label">Jenis Surat <span class="text-danger">*</span></label>
-          <select class="form-select" id="jenisSurat" required>
-            <option selected>Semua Jenis Surat</option>
-            <!-- Tambahkan opsi lainnya di sini -->
-          </select>
-        </div>
-      </div>
-      <div class="text-end">
-        <button type="submit" class="btn btn-primary px-4">Cari</button>
-      </div>
-    </form>
+<form method="GET" action="{{ url('surat_keluar') }}">
+  <div class="row g-3 mb-3">
+    <div class="col-md-3">
+      <label for="startDate" class="form-label">Tanggal Mulai <span class="text-danger">*</span></label>
+      <input type="date" class="form-control" id="startDate" name="startDate"
+        value="{{ $request->startDate }}">
+    </div>
+    <div class="col-md-3">
+      <label for="endDate" class="form-label">Tanggal Selesai <span class="text-danger">*</span></label>
+      <input type="date" class="form-control" id="endDate" name="endDate"
+        value="{{ $request->endDate }}">
+    </div>
+    <div class="col-md-6">
+      <label for="jenisSurat" class="form-label">Bagian <span class="text-danger">*</span></label>
+      <select class="form-select" id="bagian" name="bagian">
+        <option value="">Semua Bagian</option>
+        @foreach ($bagian as $value)
+          <option value="{{ $value->id }}" {{ $request->bagian == $value->id ? 'selected' : '' }}>
+            {{ $value->nama_bagian }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <label for="nomor" class="form-label">Nomor Surat <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="nomor" name="nomor" value="{{ $request->nomor }}">
+    </div>
+    <div class="col-md-6">
+      <label for="tipeSurat" class="form-label">Tipe Surat <span class="text-danger">*</span></label>
+      <select class="form-select" id="tipeSurat" name="tipe">
+        <option value="">Semua Tipe Surat</option>
+        <option value="umum" {{ $request->tipe == 'umum' ? 'selected' : '' }}>Umum</option>
+        <option value="permohonan" {{ $request->tipe == 'permohonan' ? 'selected' : '' }}>Permohonan</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="text-end">
+    <button type="submit" class="btn btn-primary px-4">Cari</button>
+  </div>
+</form>
+
   </div>
 </div>
 

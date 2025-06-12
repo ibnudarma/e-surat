@@ -13,11 +13,42 @@ use Str;
 
 class SuratKeluarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+                $userBagianId = auth()->user()->bagian->id;
+
+        $query = Surat::query()
+            ->where(function ($q) use ($userBagianId) {
+                $q->where('bagian_id', $userBagianId);
+        });
+
+        if ($request->filled('startDate') && $request->filled('endDate')) {
+            $query->whereBetween('tgl_surat', [$request->startDate, $request->endDate]);
+        }
+
+        if ($request->filled('bagian') && $request->bagian !== '') {
+            $query->where('ditujukan', $request->bagian);
+        }
+
+        if ($request->filled('tipe') && $request->bagian !== '') {
+            $query->where('tipe', $request->tipe);
+        }
+
+        if ($request->filled('tipe') && $request->tipe !== '') {
+            $query->where('tipe', $request->tipe);
+        }
+
+        if ($request->filled('nomor')) {
+        $query->where('nomor', 'like', '%' . $request->nomor . '%');
+        }
+
+        $surat_keluar = $query->with(['penerima', 'statusTerakhir'])->orderBy('created_at', 'desc')->get();
         $data = [
             'title' => 'Surat Keluar',
-            'surat_keluar' => Surat::where('bagian_id', '=', Auth::user()->bagian->id)->with('penerima','statusTerakhir')->orderBy('created_at','desc')->get()
+            'bagian' => Bagian::where('id', '!=', $userBagianId)->get(),
+            'request' => $request,
+            'surat_keluar' => $surat_keluar
+            // 'surat_keluar' => Surat::where('bagian_id', '=', Auth::user()->bagian->id)->with('penerima','statusTerakhir')->orderBy('created_at','desc')->get()
         ];
 
         return view('pages.surat_keluar.index', $data);

@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function() {
     Route::get('surat_masuk/diterima/{id}', [SuratMasukController::class, 'diterima']);
 
     // Kabag
+    Route::get('kabag/users', [KabagController::class, 'user']);
     Route::get('kabag/kartu_disposisi/{id}', [KabagController::class, 'kartuDisposisiCreate']);
     Route::post('kabag/kartu_disposisi', [KabagController::class, 'kartuDisposisiStore']);
     Route::get('kabag/kartu_disposisi_view/{id}', [KabagController::class, 'kartuDisposisiView']);
