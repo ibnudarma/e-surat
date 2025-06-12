@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function() {
     Route::get('dashboard', [AppController::class, 'dashboard']);
     Route::get('my_profile', [ProfileController::class, 'index']);
     Route::post('my_profile', [ProfileController::class, 'update']);
+    Route::get('surat/{id}', [AppController::class, 'suratDetail']);
 
     // Surat Keluar
     Route::get('surat_keluar', [SuratKeluarController::class, 'index']);
@@ -40,7 +41,14 @@ Route::middleware('auth')->group(function() {
     Route::get('surat_masuk/diterima/{id}', [SuratMasukController::class, 'diterima']);
 
     // Kabag
-    Route::get('kabag/users', [KabagController::class, 'user']);
+    Route::get('kabag/users', [KabagController::class, 'userGet']);
+    Route::get('kabag/user/create', [KabagController::class, 'userCreate']);
+    Route::get('kabag/user/detail/{id}', [KabagController::class, 'userDetail']);
+    Route::post('kabag/user', [KabagController::class, 'userStore']);
+    Route::put('kabag/user/{id}', [KabagController::class, 'userUpdate']);
+    Route::delete('kabag/user/{id}', [KabagController::class, 'userDelete']);
+    Route::get('kabag/ubah_password/{id}', [KabagController::class, 'ubahPassword']);
+    Route::patch('kabag/update_password/{id}', [KabagController::class, 'updatePassword']);
     Route::get('kabag/kartu_disposisi/{id}', [KabagController::class, 'kartuDisposisiCreate']);
     Route::post('kabag/kartu_disposisi', [KabagController::class, 'kartuDisposisiStore']);
     Route::get('kabag/kartu_disposisi_view/{id}', [KabagController::class, 'kartuDisposisiView']);

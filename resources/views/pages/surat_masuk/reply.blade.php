@@ -10,6 +10,15 @@
             <input type="text" name="noref" value="{{ $surat->id }}" hidden>
             <input type="text" name="ditujukan" value="{{ $surat->bagian_id }}" hidden>
 
+            {{-- Nomor --}}
+            <div class="mb-3">
+                <label for="nomor" class="form-label">Nomor Surat <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @error('nomor') is-invalid @enderror" id="nomor" name="nomor" value="{{ old('nomor') }}">
+                @error('nomor')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             {{-- Sifat --}}
             <div class="mb-3">
                 <label for="sifat" class="form-label">Sifat <span class="text-danger">*</span></label>

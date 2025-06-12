@@ -75,12 +75,13 @@
     <div class="card-header">
         <a href="{{ url('surat_keluar_create') }}" class="btn btn-primary">Buat Surat Keluar</a>
     </div>
-    <div class="card-body">
+    <div class="card-body table-responsive">
         <table class="table">
             <thead>
                 <th>No</th>
                 <th>Tanggal Surat</th>
                 <th>Nomor Surat</th>
+                <th>Tipe Surat</th>
                 <th>Perihal</th>
                 <th>Ditujukan</th>
                 <th>Status</th>
@@ -95,8 +96,9 @@
                     <td>{{ $no++ }}</td>
                     <td>{{ $value->tgl_surat }}</td>
                     <td>{{ $value->nomor }}</td>
+                    <td>{{ $value->tipe }}</td>
                     <td>{{ $value->perihal }}</td>
-                    <td>{{ $value->penerima->nama_bagian }}</td>
+                    <td>{{ $value->penerima->nama_bagian ?? 'Kabag'}}</td>
                     <td><span class="badge rounded-pill text-bg-{{ $value->statusTerakhir->color }}">{{ $value->statusTerakhir->status }}</span></td>
                     <td>
                         <div class="dropdown">

@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('surat', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bagian_id');
-            $table->foreignId('ditujukan');
+            $table->foreignId('ditujukan')->nullable();
             $table->foreignId('noref')->nullable()->default(null);
             $table->enum('tipe', ['umum', 'permohonan'])->default('umum');
             $table->string('nomor')->nullable();

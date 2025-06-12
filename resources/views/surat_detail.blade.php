@@ -2,34 +2,33 @@
 
 @section('content')
 
-<a href="{{ url('surat_keluar') }}" class="btn btn-secondary mb-3">
+<a href="{{ url('surat_masuk') }}" class="btn btn-secondary mb-3">
     <i class="ti ti-arrow-left"></i> Kembali
 </a>
 
 <div class="card shadow-sm">
     <div class="card-body">
         <h4 class="mb-4 text-primary">
-            <i class="ti ti-mail"></i> Detail Surat Keluar
+            <i class="ti ti-mail"></i> Detail Surat Masuk
         </h4>
 
         <div class="row">
-
-            <div class="col-md-6">
-                @if ($surat->noref !== null)   
-                <div class="mb-3">
-                    <strong class="text-muted">Membalas Surat :</strong><br>
-                    <span class="fw-semibold"><a href="{{ url('surat_masuk/'.$surat->noref) }}">{{$surat->balasan->perihal}}</a></span>
-                </div>
+            @if ($surat->noref !== null)   
+            <div class="mb-3">
+                <strong class="text-muted">Balasan dari surat :</strong><br>
+                <span class="fw-semibold"><a href="{{ url('surat_keluar/'.$surat->noref) }}">{{$surat->balasan->perihal}}</a></span>
+            </div>
                 @endif
 
+            <div class="col-md-6">
                 <div class="mb-3">
                     <strong class="text-muted">Tipe Surat:</strong><br>
                     <span class="fw-semibold">{{ ucfirst($surat->tipe ?? '-') }}</span>
                 </div>
 
                 <div class="mb-3">
-                    <strong class="text-muted">Ditujukan:</strong><br>
-                    <span class="fw-semibold">{{ $surat->penerima->nama_bagian ?? '-' }}</span>
+                    <strong class="text-muted">Pengirim:</strong><br>
+                    <span class="fw-semibold">{{ $surat->pengirim->nama_bagian ?? '-' }}</span>
                 </div>
 
                 <div class="mb-3">

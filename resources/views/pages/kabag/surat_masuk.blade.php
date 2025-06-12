@@ -135,11 +135,23 @@
                                 @if ($value->tipe === 'permohonan' && $value->kartuDisposisi === null)
                                     <li><a class="dropdown-item" href="{{ url('kabag/kartu_disposisi/' . $value->id) }}">Buat Kartu Disposisi</a></li>
                                 @elseif ($value->tipe === 'permohonan' && $value->kartuDisposisi !== null)
-                                    <li><a class="dropdown-item" href="{{ url('kabag/kartu_disposisi_view/' . $value->id) }}">Lihat Kartu Disposisi</a></li>
+                                    <li><a class="dropdown-item" href="{{ url('kabag/kartu_disposisi_view/' . $value->kartuDisposisi->id) }}">Lihat Kartu Disposisi</a></li>
                                     @if ($value->kartuDisposisi && $value->kartuDisposisi->file_nota_dinas === null)
                                     <li><a class="dropdown-item" href="{{ url('kabag/nota_dinas/create/' . $value->kartuDisposisi->id) }}">Unggah Nota Dinas</a></li>
                                     @elseif ($value->kartuDisposisi && $value->kartuDisposisi->file_nota_dinas !== null)                              
                                     <li><a class="dropdown-item" href="{{ url('storage/' . $value->kartuDisposisi->file_nota_dinas) }}" target="_blank">Lihat Nota Dinas</a></li>
+                                    @endif
+                                    @if($value->kartuDisposisi && $value->kartuDisposisi->surat_permohonan_pencairan_id !== null)
+                                    <li><a class="dropdown-item" href="{{ url('surat/' . $value->kartuDisposisi->surat_permohonan_pencairan_id) }}">Surat Permohonan Pencairan</a></li>
+                                    @endif
+                                    @if($value->kartuDisposisi && $value->kartuDisposisi->surat_perintah_pencairan_id !== null)
+                                    <li><a class="dropdown-item" href="{{ url('surat/' . $value->kartuDisposisi->surat_perintah_pencairan_id) }}">Surat Perintah Pencairan</a></li>
+                                    @endif
+                                    @if($value->kartuDisposisi && $value->kartuDisposisi->surat_pengakuan_pencairan_id !== null)
+                                    <li><a class="dropdown-item" href="{{ url('surat/' . $value->kartuDisposisi->surat_pengakuan_pencairan_id) }}">Surat Pengakuan Pencairan</a></li>
+                                    @if ($value->kartuDisposisi->selesai !== 1)
+                                    <li><a class="dropdown-item" href="{{ url('kabag/finish/' . $value->kartuDisposisi->id) }}">Tandai Selesai</a></li>
+                                    @endif
                                     @endif
                                 @endif
 

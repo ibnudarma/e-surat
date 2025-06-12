@@ -147,6 +147,7 @@ class SuratMasukController extends Controller
         $validated = $request->validate([
             'noref' => ['required'],
             'ditujukan' => ['required'],
+            'nomor' => ['required'],
             'sifat' => ['required'],
             'lampiran' => ['nullable'],
             'perihal' => ['required'],
@@ -165,6 +166,7 @@ class SuratMasukController extends Controller
         $surat->noref = $validated['noref'];
         $surat->bagian_id = auth()->user()->bagian->id;
         $surat->ditujukan = $validated['ditujukan'];
+        $surat->nomor = $validated['nomor'];
         $surat->sifat = $validated['sifat'];
         $surat->lampiran = $validated['lampiran'];
         $surat->perihal = $validated['perihal'];

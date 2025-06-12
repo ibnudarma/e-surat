@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StatusSurat;
 use App\Models\Surat;
 use Auth;
 use Illuminate\Http\RedirectResponse;
@@ -39,6 +40,7 @@ class AppController extends Controller
         
     }
 
+
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
@@ -54,10 +56,26 @@ class AppController extends Controller
     {
         $data = [
             'title' => 'Dashboard',
-            'jumlahSuratMasuk' => Surat::where('ditujukan', auth()->user()->bagian->id)->count(),
+            'jumlahSuratMasuk' => Surat::where('ditujukan', '=', auth()->user()->bagian->id)
+            ->orWhereHas('disposisiSekda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            ->orWhereHas('disposisiAsda', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )
+            ->orWhereHas('kartuDisposisi', function ($query){ $query->where('ditujukan', auth()->user()->bagian->id);} )->count(),
             'jumlahSuratKeluar' => Surat::where('bagian_id', auth()->user()->bagian->id)->count()
         ];
         return view('dashboard', $data);
+    }
+
+    public function suratDetail($id)
+    {
+        $surat = Surat::where('id', $id)
+                 ->firstOrFail();
+        $data = [
+            'title' => 'Detail Surat Masuk',
+            'status_surat' => StatusSurat::where('surat_id', '=', $id)->get(),
+            'surat' => $surat
+        ];
+
+        return view('surat_detail', $data);
     }
     
 }

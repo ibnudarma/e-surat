@@ -10,7 +10,11 @@
 
             {{-- Tipe Surat --}}
             <div class="mb-3">
-                <label for="tipe" class="form-label">Tipe <span class="text-danger">*</span></label>
+                <label<div class="card">
+    <div class="card-body">
+        <form action="{{ url('surat_keluar/' . $surat->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT') for="tipe" class="form-label">Tipe <span class="text-danger">*</span></label>
                 <select class="form-select @error('tipe') is-invalid @enderror" name="tipe">
                     <option value="" disabled>-- pilih tipe surat --</option>
                     <option value="umum" {{ old('tipe', $surat->tipe) == 'umum' ? 'selected' : '' }}>Umum</option>
@@ -33,6 +37,15 @@
                     @endforeach
                 </select>
                 @error('ditujukan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Lampiran --}}
+            <div class="mb-3">
+                <label for="nomor" class="form-label">nomor <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @error('nomor') is-invalid @enderror" name="nomor" value="{{ old('nomor', $surat->nomor) }}">
+                @error('nomor')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

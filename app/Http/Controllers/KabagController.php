@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bagian;
 use App\Models\KartuDisposisi;
 use App\Models\LembarDisposisiAsda;
 use App\Models\LembarDisposisiSekda;
 use App\Models\StatusSurat;
 use App\Models\Surat;
+use App\Models\User;
 use Carbon\Carbon;
 use DB;
+use Hash;
 use Illuminate\Http\Request;
 
 class KabagController extends Controller
@@ -178,6 +181,106 @@ class KabagController extends Controller
 
         return redirect('surat_masuk')->with('success', 'Berhasil ditandai Selesai');
 
+    }
+
+    public function userGet()
+    {
+        $data = [
+            'title' => 'User',
+            'users' => User::where('bagian_id', '!=', 1)->with('profile','bagian')->get()
+        ];
+
+        return view('pages.kabag.user', $data);
+    }
+
+    public function userCreate()
+    {
+        $data = [
+            'title' => 'User',
+            'bagian'=> Bagian::where('id', '!=', 1)->get(),
+            'users' => User::with('profile','bagian')->get()
+        ];
+
+        return view('pages.kabag.user_create', $data);
+    }
+
+    public function userStore(Request $request)
+    {
+        $validated = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+            'email' => 'required',
+            'bagian_id' => 'required',
+        ]);
+
+        User::create($validated);
+
+        return back()->with('success', 'Berhasil menambahkan user');
+
+    }
+
+    public function userDetail($id)
+    {
+        $data = [
+            'title' => 'User',
+            'bagian'=> Bagian::where('id', '!=', 1)->get(),
+            'user' => User::findOrFail($id)
+        ];
+
+        return view('pages.kabag.user_detail', $data);
+    }
+
+    public function userUpdate($id, Request $request)
+    {
+        $request->validate([
+                'username'   => 'required|string|max:100',
+                'email'      => 'required|email|max:100',
+                'bagian_id'  => 'required|exists:bagian,id',
+        ]);
+
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'username'   => $request->username,
+            'email'      => $request->email,
+            'bagian_id'  => $request->bagian_id,
+        ]);
+
+        return redirect()->back()->with('success', 'Data user berhasil diperbarui');
+    }
+
+    public function userDelete($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json(['message' => 'User berhasil dihapus']);
+    }
+
+    public function ubahPassword($id)
+    {
+        $data = [
+            'title' => 'Ubah Password',
+            'user' => User::findOrFail($id)
+        ];
+
+        return view('auth.ubah_password', $data);
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required',
+            'password_confirmation' => 'required|same:password'
+        ]);
+
+       $passwordhash = Hash::make($request->password);
+
+        User::where('id', '=', $id)->update([
+            'password' => $passwordhash
+        ]);
+
+        return back()->with('success', 'Berhasil mengubah password');
     }
 
 }

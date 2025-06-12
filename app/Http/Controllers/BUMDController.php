@@ -41,7 +41,6 @@ public function pengakuanPencairanCreate($id)
         $kartuDisposisi = KartuDisposisi::findOrFail($request->kartu_disposisi_id);
   
         $surat = new Surat();
-        $surat->ditujukan           = $request->ditujukan;
         $surat->nomor               = $request->nomor;
         $surat->sifat               = $request->sifat;
         $surat->lampiran            = $request->lampiran;
